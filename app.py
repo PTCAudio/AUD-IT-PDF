@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template, send_file, request
 from xhtml2pdf import pisa
 from io import BytesIO
 import os
@@ -9,9 +9,18 @@ app = Flask(__name__)
 def hello():
     return "PDF service is alive"
 
-@app.route("/pdf/test")
+@app.route("/pdf/test", methods=["GET", "POST"])
 def pdf_test():
-    html = render_template("test.html")
+    if request.method == "POST":
+        data = request.get_json() or {}
+    else:
+        data = request.args.to_dict()
+
+    show_name = data.get("show_name", "Untitled Show")
+    venue = data.get("venue", "Unknown Venue")
+
+
+    html = render_template("test.html", show_name=show_name, venue=venue)
     pdf_buffer = BytesIO()
     pisa.CreatePDF(html, dest=pdf_buffer)
     pdf_buffer.seek(0)
