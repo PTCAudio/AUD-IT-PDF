@@ -12,11 +12,11 @@ def pdf_test():
     html = render_templates("test.html")
     pdf_buffer = BytesIO()
     pisa.CreatePDF(html, dest=pdf_buffer)
-    pdf_buffer,
-    mimetype="application/pdf"
-    as_attachment=True,
-    download_name="test.pdf"
-
+    pdf_buffer,.seek(0)
+    return send_file(
+        mimetype="application/pdf"
+        as_attachment=True,
+        download_name="test.pdf"
 )
 
 if __name__ == "__main__":
