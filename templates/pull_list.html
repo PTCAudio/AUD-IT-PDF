@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pull List - {{ show_name }}</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.5in 0.5in 0.75in 0.5in;
+            @frame footer {
+                -pdf-frame-content: footerContent;
+                left: 0.5in;
+                right: 0.5in;
+                bottom: 0.3in;
+                height: 0.25in;
+
+            }
+        }
+        body {
+            font-family: Helvetica, sans-serif;
+            color: #000;
+        }
+        .header {
+            border-bottom: 3px solid#000;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+        .header .meta {
+            font-size: 11px;
+            color: #555;
+            margin-top: 4px;
+        }
+        .category {
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 18px;
+            margin-bottom: 6px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #888;
+        }
+        table.items{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.items td {
+            padding: 5px 4px;
+            font-size: 12px;
+            vertical-align: top;
+        }
+        td.box {
+            width: 18px;
+            font-size: 14px;
+            font-family: 'DejaVu Sans', sans-serif;
+        }
+        td.qty {
+            width: 35px;
+            font-weight: bold;
+            text-align: right;
+            padding-right: 12px;
+        }
+        td.gear {
+            font-weight: bold;
+        }
+        td.loc {
+            width: 30%;
+            color: #555;
+            font-size: 11px;
+            text-align: right;
+        }
+        .note {
+            font-size: 10px;
+            color: #555;
+            font-style: italic;
+            padding-left: 65px;
+            padding-top: 0;
+            padding-bottom: 4px;
+        }
+        .footer {
+            font-size: 9px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>{{ show_name }} &middot; Pull List</h1>
+        <div class="meta">{{ document_date }}</div>
+    </div>
+    {% for category, groupin items_by_category.items() %}
+        <div class="category">{{ category }}</div>
+        <table class="items">
+            {% for item in group %}
+            <tr>
+                <td class="box">&#9744;</td>
+                <td class="qty">{{ item.quantity }}</td>
+                <td class="gear">{{ item.make }} {{ item.modle }}</td>
+                <td class="loc">{{ item.location }}</td>
+
+            </tr>
+            {% if item.notes %}
+                <tr>
+                    <td colspan="4" class="note">{{ item.notes }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </table>
+    {% endfor %}
+
+    <div id="footerContent" class="footer">
+        {{ show_name }} Pull List &middot; Page <pdf:pagenumber> of <pdf:pagecount>
+    </div>
+
+</body>
+</html>
