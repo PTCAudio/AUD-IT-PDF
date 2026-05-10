@@ -12,7 +12,6 @@
                 right: 0.5in;
                 bottom: 0.3in;
                 height: 0.25in;
-
             }
         }
         body {
@@ -20,7 +19,7 @@
             color: #000;
         }
         .header {
-            border-bottom: 3px solid#000;
+            border-bottom: 3px solid #000;
             padding-bottom: 8px;
             margin-bottom: 20px;
         }
@@ -45,7 +44,7 @@
             padding-bottom: 3px;
             border-bottom: 1px solid #888;
         }
-        table.items{
+        table.items {
             width: 100%;
             border-collapse: collapse;
         }
@@ -90,34 +89,30 @@
     </style>
 </head>
 <body>
-
     <div class="header">
         <h1>{{ show_name }} &middot; Pull List</h1>
         <div class="meta">{{ document_date }}</div>
     </div>
-    {% for category, groupin items_by_category.items() %}
+    {% for category, group in items_by_category.items() %}
         <div class="category">{{ category }}</div>
         <table class="items">
             {% for item in group %}
             <tr>
                 <td class="box">&#9744;</td>
                 <td class="qty">{{ item.quantity }}</td>
-                <td class="gear">{{ item.make }} {{ item.modle }}</td>
+                <td class="gear">{{ item.make }} {{ item.model }}</td>
                 <td class="loc">{{ item.location }}</td>
-
             </tr>
             {% if item.notes %}
                 <tr>
                     <td colspan="4" class="note">{{ item.notes }}</td>
                 </tr>
             {% endif %}
-        {% endfor %}
+            {% endfor %}
         </table>
     {% endfor %}
-
     <div id="footerContent" class="footer">
         {{ show_name }} Pull List &middot; Page <pdf:pagenumber> of <pdf:pagecount>
     </div>
-
 </body>
 </html>
