@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, request, jsonify
-from flask-cors import CORS
+from flask_cors import CORS
 from xhtml2pdf import pisa
 from io import BytesIO
 import os
