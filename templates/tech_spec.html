@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{{ show_name }} — Audio Specification</title>
+<style>
+  @page {
+    size: letter;
+    margin: 0.55in 0.65in 0.7in 0.65in;
+    @frame footer {
+      -pdf-frame-content: footer_content;
+      bottom: 0.3in;
+      left: 0.65in;
+      right: 0.65in;
+      height: 0.25in;
+    }
+  }
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9.5pt;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+  .masthead {
+    border-bottom: 1.5pt solid #1a3a5c;
+    padding-bottom: 6pt;
+    margin-bottom: 14pt;
+  }
+  .org {
+    font-size: 7.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 3pt;
+  }
+  .doc-title {
+    font-size: 17pt;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin: 0;
+  }
+  .doc-title .qualifier {
+    font-weight: normal;
+    color: #1a3a5c;
+    font-size: 13pt;
+  }
+  .meta-bar {
+    margin-top: 3pt;
+    font-size: 7.5pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .meta-bar .sep {
+    color: #ccc;
+    margin: 0 6pt;
+  }
+
+  h2.section {
+    font-size: 10pt;
+    color: #1a3a5c;
+    border-bottom: 1pt solid #1a3a5c;
+    padding-bottom: 3pt;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .section-total {
+    font-size: 8pt;
+    color: #888;
+    font-weight: normal;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    float: right;
+  }
+
+  table.gear {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 4pt;
+  }
+  table.gear th {
+    background: #1a3a5c;
+    color: white;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4pt 6pt;
+    text-align: left;
+    font-weight: bold;
+  }
+  table.gear th.qty,
+  table.gear td.qty {
+    text-align: center;
+    width: 32pt;
+  }
+  table.gear th.makemodel,
+  table.gear td.makemodel {
+    width: 140pt;
+  }
+  table.gear td {
+    padding: 4pt 6pt;
+    border-bottom: 0.5pt solid #d8d8d8;
+    vertical-align: top;
+    font-size: 9pt;
+  }
+  table.gear tr:nth-child(even) td {
+    background: #f7f7fb;
+  }
+  td.makemodel {
+    font-weight: bold;
+    color: #1a3a5c;
+  }
+  td.desc {
+    color: #444;
+  }
+
+  #footer_content {
+    text-align: center;
+    font-size: 7pt;
+    color: #999;
+    border-top: 0.5pt solid #ccc;
+    padding-top: 4pt;
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="org">Phoenix Theatre Company · Audio Department</div>
+  <div class="doc-title">{{ show_name }} <span class="qualifier">— Audio Specification</span></div>
+  <div class="meta-bar">
+    Generated {{ document_date }}<span class="sep">·</span>Gear allocated to this production
+  </div>
+</div>
+
+{% for category, items in items_by_category.items() %}
+  <h2 class="section">
+    {{ category }}
+    <span class="section-total">
+      {{ items|sum(attribute='qty') }} unit{{ '' if items|sum(attribute='qty') == 1 else 's' }}
+      across {{ items|length }} model{{ '' if items|length == 1 else 's' }}
+    </span>
+  </h2>
+
+  <table class="gear">
+    <thead>
+      <tr>
+        <th class="qty">Qty</th>
+        <th class="makemodel">Make &amp; Model</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <td class="qty">{{ item.qty }}</td>
+          <td class="makemodel">{{ item.make }} {{ item.model }}</td>
+          <td class="desc">{{ item.desc or '' }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
+
+<div id="footer_content">
+  Phoenix Theatre Company · Audio Department · {{ show_name }} · Audio Specification
+</div>
+
+</body>
+</html>
