@@ -67,6 +67,42 @@ def pdf_pull_list():
         download_name=f"{safe_name}_pull_list.pdf"
     )
 
+@app.route("/pdf/tech-spec", methods=["POST"])
+def pdf_tech_spec():
+    data = request.get_json() or {}
+
+    show_name = data.get("show_name", "Untitled Show")
+    document_date = data.get("document_date", "")
+    items = data.get("items", [])
+
+    if not items:
+        return jsonify({"error": "No items provided"}), 400
+
+    items_by_category = {}
+    for item in items:
+        category = item.get("category", "Uncategorized")
+        if category not in items_by_category:
+            items_by_category[category] = []
+        items_by_category[category].append(item)
+
+    html = render_template(
+        "tech_spec.html",
+        show_name=show_name,
+        document_date=document_date,
+        items_by_category=items_by_category
+    )
+
+    pdf_buffer = BytesIO()
+    pisa.CreatePDF(html, dest=pdf_buffer)
+    pdf_buffer.seek(0)
+
+    safe_name = show_name.replace(" ", "_").lower()
+    return send_file(
+        pdf_buffer,
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=f"{safe_name}_tech_spec.pdf"
+    )
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
