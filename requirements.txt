@@ -1,3 +1,4 @@
 flask
 gunicorn
 xhtml2pdf
+flask-cors
