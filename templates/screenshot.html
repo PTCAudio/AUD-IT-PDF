@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{{ title }} — Screenshot</title>
+<style>
+  @page {
+    size: letter;
+    margin: 0.55in 0.65in 0.7in 0.65in;
+    @frame footer {
+      -pdf-frame-content: footer_content;
+      bottom: 0.3in;
+      left: 0.65in;
+      right: 0.65in;
+      height: 0.25in;
+    }
+  }
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9.5pt;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+  .masthead {
+    border-bottom: 1.5pt solid #1a3a5c;
+    padding-bottom: 6pt;
+    margin-bottom: 14pt;
+  }
+  .org {
+    font-size: 7.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 3pt;
+  }
+  .doc-title {
+    font-size: 17pt;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin: 0;
+  }
+  .doc-title .qualifier {
+    font-weight: normal;
+    color: #1a3a5c;
+    font-size: 13pt;
+  }
+  .meta-bar {
+    margin-top: 3pt;
+    font-size: 7.5pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .image-wrap {
+    text-align: center;
+    margin: 12pt 0;
+  }
+  .image-wrap img {
+    max-width: 100%;
+    border: 0.5pt solid #ccc;
+  }
+
+  .caption {
+    margin-top: 10pt;
+    padding: 8pt 10pt;
+    background: #f7f7fb;
+    border-left: 2pt solid #1a3a5c;
+    font-size: 9.5pt;
+    color: #333;
+    line-height: 1.5;
+  }
+  .caption-label {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1a3a5c;
+    font-weight: bold;
+    margin-bottom: 4pt;
+  }
+
+  #footer_content {
+    text-align: center;
+    font-size: 7pt;
+    color: #999;
+    border-top: 0.5pt solid #ccc;
+    padding-top: 4pt;
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="org">Phoenix Theatre Company · Audio Department</div>
+  <div class="doc-title">{{ title }} <span class="qualifier">— Screenshot</span></div>
+  <div class="meta-bar">
+    Captured {{ document_date }}
+  </div>
+</div>
+
+<div class="image-wrap">
+  <img src="{{ image_data }}" alt="Screenshot">
+</div>
+
+{% if caption %}
+<div class="caption">
+  <div class="caption-label">Notes</div>
+  {{ caption }}
+</div>
+{% endif %}
+
+<div id="footer_content">
+  Phoenix Theatre Company · Audio Department · {{ title }} · Screenshot
+</div>
+
+</body>
+</html>
